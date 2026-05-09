@@ -1,0 +1,17 @@
+# macOS
+.DS_Store
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# Local generated database and raw downloads
+data/housing_cycle.sqlite
+data/housing_cycle.sqlite-*
+data/raw/
+
+# Local logs / temp
+*.log
+.tmp/
