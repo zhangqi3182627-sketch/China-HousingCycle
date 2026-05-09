@@ -7,9 +7,10 @@ __pycache__/
 .venv/
 venv/
 
-# Local generated database and raw downloads
-data/housing_cycle.sqlite
+# SQLite runtime sidecar files
 data/housing_cycle.sqlite-*
+
+# Raw download cache can be rebuilt and is bulky
 data/raw/
 
 # Local logs / temp
