@@ -1,6 +1,6 @@
 # 房地产周期月度追踪报告 — 2026-03
 
-生成时间：2026-05-09 12:03:09
+生成时间：2026-05-09 05:15:12
 
 ## 主信号
 
@@ -22,17 +22,17 @@
 
 ## 数据源状态
 
-| source                             | status   |   rows | message                                                      | run_at              |
-|:-----------------------------------|:---------|-------:|:-------------------------------------------------------------|:--------------------|
-| pbc_credit_tables                  | ok       |   1383 | stock_months=231 monthly_diffs=230 coverage=2007-01..2026-03 | 2026-05-09T12:03:08 |
-| pbc_household_manual               | ok       |      9 | manual seed; not complete 2000-now series                    | 2026-05-09T12:02:49 |
-| pbc_household_monthly_from_reports | ok       |      6 | monthly values parsed or derived from YTD snippets           | 2026-05-09T12:02:49 |
-| pbc_report_snippets                | ok       |      4 | parsed PBOC monthly/YTD snippets                             | 2026-05-09T12:02:49 |
-| neodata_validation                 | ok       |      3 | validation queries completed                                 | 2026-05-09T12:02:49 |
-| westock_investment                 | ok       |   3088 | years=2000-2026                                              | 2026-05-09T12:02:48 |
-| real_estate_climate                | ok       |    326 |                                                              | 2026-05-09T12:02:48 |
-| new_financial_credit               | ok       |    219 |                                                              | 2026-05-09T12:02:47 |
-| 70_city_house_price                | ok       |  51606 | raw rows=12834; unique city rows=12810; fresh                | 2026-05-09T12:02:47 |
+| source                             | status   |   rows | message                                                                                     | run_at              |
+|:-----------------------------------|:---------|-------:|:--------------------------------------------------------------------------------------------|:--------------------|
+| pbc_credit_tables                  | ok       |   1383 | stock_months=231 monthly_diffs=230 coverage=2007-01..2026-03                                | 2026-05-09T05:15:10 |
+| pbc_household_manual               | ok       |      9 | manual seed; not complete 2000-now series                                                   | 2026-05-09T05:12:13 |
+| pbc_household_monthly_from_reports | ok       |      6 | monthly values parsed or derived from YTD snippets                                          | 2026-05-09T05:12:13 |
+| pbc_report_snippets                | ok       |      4 | parsed PBOC monthly/YTD snippets                                                            | 2026-05-09T05:12:13 |
+| neodata_validation                 | missing  |      0 | /home/runner/.codebuddy/skills-marketplace/skills/neodata-financial-search/scripts/query.py | 2026-05-09T05:12:13 |
+| westock_investment                 | missing  |      0 | /home/runner/.codebuddy/bin/westock-data                                                    | 2026-05-09T05:12:13 |
+| real_estate_climate                | ok       |    326 |                                                                                             | 2026-05-09T05:12:13 |
+| new_financial_credit               | ok       |    219 |                                                                                             | 2026-05-09T05:12:09 |
+| 70_city_house_price                | ok       |  51606 | raw rows=12834; unique city rows=12810; fresh                                               | 2026-05-09T05:12:07 |
 
 ## 备注
 

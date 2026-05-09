@@ -74,83 +74,83 @@
 
 ## PBC 居民贷款解析样本
 
-| period_end   | period_type   |   household_new_loans |   household_short_new_loans |   household_medium_long_new_loans |   confidence | notes                                          |
-|:-------------|:--------------|----------------------:|----------------------------:|----------------------------------:|-------------:|:-----------------------------------------------|
-| 2025-01-01   | monthly       |                  4438 |                        -497 |                              4935 |         0.85 | 新闻转载央行月报，单月口径                     |
+| period_end   | period_type   |   household_new_loans |   household_short_new_loans |   household_medium_long_new_loans |   confidence | notes                   |
+|:-------------|:--------------|----------------------:|----------------------------:|----------------------------------:|-------------:|:------------------------|
+| 2025-01-01   | monthly       |                  4438 |                        -497 |                              4935 |         0.85 | 新闻转载央行月报，单月口径           |
 | 2025-12-01   | annual        |                  4417 |                       -8351 |                             12800 |         0.8  | 全年累计口径；用于年度校验，不直接参与单月信号 |
-| 2026-02-01   | ytd           |                 -1942 |                       -3596 |                              1654 |         0.9  | 1-2月累计口径                                  |
-| 2026-03-01   | ytd           |                  2967 |                       -1640 |                              4607 |         0.95 | 一季度累计口径，可与前两月相减倒推3月          |
+| 2026-02-01   | ytd           |                 -1942 |                       -3596 |                              1654 |         0.9  | 1-2月累计口径                |
+| 2026-03-01   | ytd           |                  2967 |                       -1640 |                              4607 |         0.95 | 一季度累计口径，可与前两月相减倒推3月     |
 
 ## PBC 官方信贷表抓取日志
 
-|   year | title                                                                                                                     | status            | message    |
-|-------:|:--------------------------------------------------------------------------------------------------------------------------|:------------------|:-----------|
-|   2026 | 金融机构人民币信贷收支表 Summary of Sources And Uses of Credit Funds of Financial Institutions（in RMB）                  | ok                | records=3  |
-|   2025 | 金融机构人民币信贷收支表 Summary of Sources And Uses of Credit Funds of Financial Institutions（in RMB）                  | ok                | records=12 |
-|   2024 | 金融机构人民币信贷收支表 Summary of Sources And Uses of Credit Funds of Financial Institutions（in RMB）                  | ok                | records=12 |
-|   2023 | 金融机构人民币信贷收支表 Summary of Sources And Uses of Credit Funds of Financial Institutions（in RMB）                  | ok                | records=12 |
-|   2022 | 金融机构人民币信贷收支表 Summary of Sources And Uses of Credit Funds of Financial Institutions（in RMB）                  | ok                | records=12 |
-|   2021 | 金融机构人民币信贷收支表 Summary of Sources And Uses of Credit Funds of Financial Institutions（in RMB）                  | ok                | records=12 |
-|   2020 | 金融机构人民币信贷收支表 Summary of Sources And Uses of Credit Funds of Financial Institutions（in RMB）                  | ok                | records=12 |
-|   2019 | 金融机构人民币信贷收支表 Summary of Sources And Uses of Credit Funds of Financial Institutions（in RMB）                  | ok                | records=12 |
-|   2018 | 金融机构人民币信贷收支表 Summary of Sources And Uses of Credit Funds of Financial Institutions（in RMB）                  | ok                | records=12 |
-|   2017 | 金融机构人民币信贷收支表 Summary of Sources And Uses of Credit Funds of Financial Institutions（in RMB）                  | ok                | records=12 |
-|   2016 | 金融机构人民币信贷收支表 Summary of Sources And Uses of Credit Funds of Financial Institutions（in RMB）                  | ok                | records=12 |
-|   2015 | 金融机构人民币信贷收支表 Summary of Sources And Uses of Credit Funds of Financial Institutions（in RMB）                  | ok                | records=12 |
+|   year | title                                                                                           | status            | message    |
+|-------:|:------------------------------------------------------------------------------------------------|:------------------|:-----------|
+|   2026 | 金融机构人民币信贷收支表 Summary of Sources And Uses of Credit Funds of Financial Institutions（in RMB）      | ok                | records=3  |
+|   2025 | 金融机构人民币信贷收支表 Summary of Sources And Uses of Credit Funds of Financial Institutions（in RMB）      | ok                | records=12 |
+|   2024 | 金融机构人民币信贷收支表 Summary of Sources And Uses of Credit Funds of Financial Institutions（in RMB）      | ok                | records=12 |
+|   2023 | 金融机构人民币信贷收支表 Summary of Sources And Uses of Credit Funds of Financial Institutions（in RMB）      | ok                | records=12 |
+|   2022 | 金融机构人民币信贷收支表 Summary of Sources And Uses of Credit Funds of Financial Institutions（in RMB）      | ok                | records=12 |
+|   2021 | 金融机构人民币信贷收支表 Summary of Sources And Uses of Credit Funds of Financial Institutions（in RMB）      | ok                | records=12 |
+|   2020 | 金融机构人民币信贷收支表 Summary of Sources And Uses of Credit Funds of Financial Institutions（in RMB）      | ok                | records=12 |
+|   2019 | 金融机构人民币信贷收支表 Summary of Sources And Uses of Credit Funds of Financial Institutions（in RMB）      | ok                | records=12 |
+|   2018 | 金融机构人民币信贷收支表 Summary of Sources And Uses of Credit Funds of Financial Institutions（in RMB）      | ok                | records=12 |
+|   2017 | 金融机构人民币信贷收支表 Summary of Sources And Uses of Credit Funds of Financial Institutions（in RMB）      | ok                | records=12 |
+|   2016 | 金融机构人民币信贷收支表 Summary of Sources And Uses of Credit Funds of Financial Institutions（in RMB）      | ok                | records=12 |
+|   2015 | 金融机构人民币信贷收支表 Summary of Sources And Uses of Credit Funds of Financial Institutions（in RMB）      | ok                | records=12 |
 |   2014 | 金融机构人民币信贷收支表（按部门分类） Sources & Uses of Credit Funds of Financial Institutions（by Sectors） 单位：亿元  | ok                | records=12 |
 |   2013 | 金融机构人民币信贷收支表（按部门分类） Sources & Uses  of Credit Funds of Financial Institutions（by Sectors） 单位：亿元 | ok                | records=12 |
 |   2012 | 金融机构人民币信贷收支表（按部门分类） Sources & Uses  of Credit Funds of Financial Institutions（by Sectors） 单位：亿元 | ok                | records=12 |
 |   2011 | 金融机构人民币信贷收支表（按部门分类） Sources & Uses  of Credit Funds of Financial Institutions（by Sectors） 单位：亿元 | ok                | records=12 |
-|   2010 | 金融机构人民币信贷收支表(按部门分类) Sources & Uses  of Credit Funds of Financial Institutions(by Sectors) 单位：亿元     | ok                | records=12 |
-|   2009 | 金融机构人民币信贷收支表(按部门分类) Sources & Uses  of Credit Funds of Financial Institutions(by Sectors) 单位：亿元     | ok                | records=12 |
-|   2008 | 金融机构人民币信贷收支表(按部门分类) Sources & Uses of Credit Funds of Financial Institutions(by Sectors) 单位：亿元      | ok                | records=12 |
-|   2007 | 金融机构人民币信贷收支表(按部门分类) Sources & Uses of Credit Funds of Financial Institutions(by Sectors) 单位：亿元      | ok                | records=12 |
-|   2006 | 金融机构人民币信贷收支表 Sources And Uses of Credit Funds of Financial Institutions                                       | no_household_rows | records=0  |
-|   2005 | 金融机构人民币信贷收支表 Sources And Uses of Credit Funds of Financial Institutions                                       | no_household_rows | records=0  |
-|   2004 | 金融机构人民币信贷收支表 Sources And Uses of Credit Funds of Financial Institutions                                       | no_household_rows | records=0  |
-|   2003 | 金融机构人民币信贷收支表 Sources And Uses of Credit Funds of Financial Institutions                                       | no_household_rows | records=0  |
-|   2002 | 金融机构人民币信贷收支表 Sources And Uses of Credit Funds of Financial Institutions                                       | no_household_rows | records=0  |
-|   2001 | 金融机构人民币信贷收支表 单位：亿元 项目                                                                                  | no_household_rows | records=0  |
-|   2000 | 金融机构人民币信贷收支表 单位：亿元 项目                                                                                  | no_household_rows | records=0  |
+|   2010 | 金融机构人民币信贷收支表(按部门分类) Sources & Uses  of Credit Funds of Financial Institutions(by Sectors) 单位：亿元 | ok                | records=12 |
+|   2009 | 金融机构人民币信贷收支表(按部门分类) Sources & Uses  of Credit Funds of Financial Institutions(by Sectors) 单位：亿元 | ok                | records=12 |
+|   2008 | 金融机构人民币信贷收支表(按部门分类) Sources & Uses of Credit Funds of Financial Institutions(by Sectors) 单位：亿元  | ok                | records=12 |
+|   2007 | 金融机构人民币信贷收支表(按部门分类) Sources & Uses of Credit Funds of Financial Institutions(by Sectors) 单位：亿元  | ok                | records=12 |
+|   2006 | 金融机构人民币信贷收支表 Sources And Uses of Credit Funds of Financial Institutions                         | no_household_rows | records=0  |
+|   2005 | 金融机构人民币信贷收支表 Sources And Uses of Credit Funds of Financial Institutions                         | no_household_rows | records=0  |
+|   2004 | 金融机构人民币信贷收支表 Sources And Uses of Credit Funds of Financial Institutions                         | no_household_rows | records=0  |
+|   2003 | 金融机构人民币信贷收支表 Sources And Uses of Credit Funds of Financial Institutions                         | no_household_rows | records=0  |
+|   2002 | 金融机构人民币信贷收支表 Sources And Uses of Credit Funds of Financial Institutions                         | no_household_rows | records=0  |
+|   2001 | 金融机构人民币信贷收支表 单位：亿元 项目                                                                           | no_household_rows | records=0  |
+|   2000 | 金融机构人民币信贷收支表 单位：亿元 项目                                                                           | no_household_rows | records=0  |
 
 ## NeoData 校验层
 
-| query                                              | code   |   suc | recall_types   | status   | message                                                                     | run_at              |
-|:---------------------------------------------------|:-------|------:|:---------------|:---------|:----------------------------------------------------------------------------|:--------------------|
-| 70城新房 二手房 价格指数                           |        |     0 | []             | error    | Token 缓存已过期（超过 12 小时），需要重新获取                              | 2026-05-09T12:02:49 |
-|                                                    |        |       |                |          | 错误: 未找到有效 token。请先运行 --save-token 保存，或使用 --token 参数传入 |                     |
-| 房地产开发投资 商品房销售面积 新开工面积 月度 数据 |        |     0 | []             | error    | Token 缓存已过期（超过 12 小时），需要重新获取                              | 2026-05-09T12:02:49 |
-|                                                    |        |       |                |          | 错误: 未找到有效 token。请先运行 --save-token 保存，或使用 --token 参数传入 |                     |
-| 居民贷款 住户贷款 中长期贷款 月度 数据             |        |     0 | []             | error    | Token 缓存已过期（超过 12 小时），需要重新获取                              | 2026-05-09T12:02:49 |
-|                                                    |        |       |                |          | 错误: 未找到有效 token。请先运行 --save-token 保存，或使用 --token 参数传入 |                     |
-| 70城新房 二手房 价格指数                           |        |     0 | []             | error    | Token 缓存已过期（超过 12 小时），需要重新获取                              | 2026-05-09T12:01:19 |
-|                                                    |        |       |                |          | 错误: 未找到有效 token。请先运行 --save-token 保存，或使用 --token 参数传入 |                     |
-| 房地产开发投资 商品房销售面积 新开工面积 月度 数据 |        |     0 | []             | error    | Token 缓存已过期（超过 12 小时），需要重新获取                              | 2026-05-09T12:01:19 |
-|                                                    |        |       |                |          | 错误: 未找到有效 token。请先运行 --save-token 保存，或使用 --token 参数传入 |                     |
-| 居民贷款 住户贷款 中长期贷款 月度 数据             |        |     0 | []             | error    | Token 缓存已过期（超过 12 小时），需要重新获取                              | 2026-05-09T12:01:18 |
-|                                                    |        |       |                |          | 错误: 未找到有效 token。请先运行 --save-token 保存，或使用 --token 参数传入 |                     |
-| 70城新房 二手房 价格指数                           |        |     0 | []             | error    | Token 缓存已过期（超过 12 小时），需要重新获取                              | 2026-05-09T11:41:11 |
-|                                                    |        |       |                |          | 错误: 未找到有效 token。请先运行 --save-token 保存，或使用 --token 参数传入 |                     |
-| 房地产开发投资 商品房销售面积 新开工面积 月度 数据 |        |     0 | []             | error    | Token 缓存已过期（超过 12 小时），需要重新获取                              | 2026-05-09T11:41:11 |
-|                                                    |        |       |                |          | 错误: 未找到有效 token。请先运行 --save-token 保存，或使用 --token 参数传入 |                     |
-| 居民贷款 住户贷款 中长期贷款 月度 数据             |        |     0 | []             | error    | Token 缓存已过期（超过 12 小时），需要重新获取                              | 2026-05-09T11:41:10 |
-|                                                    |        |       |                |          | 错误: 未找到有效 token。请先运行 --save-token 保存，或使用 --token 参数传入 |                     |
-| 70城新房 二手房 价格指数                           |        |     0 | []             | error    | Token 缓存已过期（超过 12 小时），需要重新获取                              | 2026-05-09T11:39:51 |
-|                                                    |        |       |                |          | 错误: 未找到有效 token。请先运行 --save-token 保存，或使用 --token 参数传入 |                     |
+| query                       | code   |   suc | recall_types   | status   | message                                               | run_at              |
+|:----------------------------|:-------|------:|:---------------|:---------|:------------------------------------------------------|:--------------------|
+| 70城新房 二手房 价格指数              |        |     0 | []             | error    | Token 缓存已过期（超过 12 小时），需要重新获取                          | 2026-05-09T12:02:49 |
+|                             |        |       |                |          | 错误: 未找到有效 token。请先运行 --save-token 保存，或使用 --token 参数传入 |                     |
+| 房地产开发投资 商品房销售面积 新开工面积 月度 数据 |        |     0 | []             | error    | Token 缓存已过期（超过 12 小时），需要重新获取                          | 2026-05-09T12:02:49 |
+|                             |        |       |                |          | 错误: 未找到有效 token。请先运行 --save-token 保存，或使用 --token 参数传入 |                     |
+| 居民贷款 住户贷款 中长期贷款 月度 数据       |        |     0 | []             | error    | Token 缓存已过期（超过 12 小时），需要重新获取                          | 2026-05-09T12:02:49 |
+|                             |        |       |                |          | 错误: 未找到有效 token。请先运行 --save-token 保存，或使用 --token 参数传入 |                     |
+| 70城新房 二手房 价格指数              |        |     0 | []             | error    | Token 缓存已过期（超过 12 小时），需要重新获取                          | 2026-05-09T12:01:19 |
+|                             |        |       |                |          | 错误: 未找到有效 token。请先运行 --save-token 保存，或使用 --token 参数传入 |                     |
+| 房地产开发投资 商品房销售面积 新开工面积 月度 数据 |        |     0 | []             | error    | Token 缓存已过期（超过 12 小时），需要重新获取                          | 2026-05-09T12:01:19 |
+|                             |        |       |                |          | 错误: 未找到有效 token。请先运行 --save-token 保存，或使用 --token 参数传入 |                     |
+| 居民贷款 住户贷款 中长期贷款 月度 数据       |        |     0 | []             | error    | Token 缓存已过期（超过 12 小时），需要重新获取                          | 2026-05-09T12:01:18 |
+|                             |        |       |                |          | 错误: 未找到有效 token。请先运行 --save-token 保存，或使用 --token 参数传入 |                     |
+| 70城新房 二手房 价格指数              |        |     0 | []             | error    | Token 缓存已过期（超过 12 小时），需要重新获取                          | 2026-05-09T11:41:11 |
+|                             |        |       |                |          | 错误: 未找到有效 token。请先运行 --save-token 保存，或使用 --token 参数传入 |                     |
+| 房地产开发投资 商品房销售面积 新开工面积 月度 数据 |        |     0 | []             | error    | Token 缓存已过期（超过 12 小时），需要重新获取                          | 2026-05-09T11:41:11 |
+|                             |        |       |                |          | 错误: 未找到有效 token。请先运行 --save-token 保存，或使用 --token 参数传入 |                     |
+| 居民贷款 住户贷款 中长期贷款 月度 数据       |        |     0 | []             | error    | Token 缓存已过期（超过 12 小时），需要重新获取                          | 2026-05-09T11:41:10 |
+|                             |        |       |                |          | 错误: 未找到有效 token。请先运行 --save-token 保存，或使用 --token 参数传入 |                     |
+| 70城新房 二手房 价格指数              |        |     0 | []             | error    | Token 缓存已过期（超过 12 小时），需要重新获取                          | 2026-05-09T11:39:51 |
+|                             |        |       |                |          | 错误: 未找到有效 token。请先运行 --save-token 保存，或使用 --token 参数传入 |                     |
 
 ## 最近数据源日志
 
-| source                             | status   |   rows | message                                                      | run_at              |
-|:-----------------------------------|:---------|-------:|:-------------------------------------------------------------|:--------------------|
-| pbc_credit_tables                  | ok       |   1383 | stock_months=231 monthly_diffs=230 coverage=2007-01..2026-03 | 2026-05-09T12:03:08 |
-| pbc_household_manual               | ok       |      9 | manual seed; not complete 2000-now series                    | 2026-05-09T12:02:49 |
-| pbc_household_monthly_from_reports | ok       |      6 | monthly values parsed or derived from YTD snippets           | 2026-05-09T12:02:49 |
-| pbc_report_snippets                | ok       |      4 | parsed PBOC monthly/YTD snippets                             | 2026-05-09T12:02:49 |
-| neodata_validation                 | ok       |      3 | validation queries completed                                 | 2026-05-09T12:02:49 |
-| westock_investment                 | ok       |   3088 | years=2000-2026                                              | 2026-05-09T12:02:48 |
-| real_estate_climate                | ok       |    326 |                                                              | 2026-05-09T12:02:48 |
-| new_financial_credit               | ok       |    219 |                                                              | 2026-05-09T12:02:47 |
-| 70_city_house_price                | ok       |  51606 | raw rows=12834; unique city rows=12810; fresh                | 2026-05-09T12:02:47 |
+| source                             | status   |   rows | message                                                                                     | run_at              |
+|:-----------------------------------|:---------|-------:|:--------------------------------------------------------------------------------------------|:--------------------|
+| pbc_credit_tables                  | ok       |   1383 | stock_months=231 monthly_diffs=230 coverage=2007-01..2026-03                                | 2026-05-09T05:15:10 |
+| pbc_household_manual               | ok       |      9 | manual seed; not complete 2000-now series                                                   | 2026-05-09T05:12:13 |
+| pbc_household_monthly_from_reports | ok       |      6 | monthly values parsed or derived from YTD snippets                                          | 2026-05-09T05:12:13 |
+| pbc_report_snippets                | ok       |      4 | parsed PBOC monthly/YTD snippets                                                            | 2026-05-09T05:12:13 |
+| neodata_validation                 | missing  |      0 | /home/runner/.codebuddy/skills-marketplace/skills/neodata-financial-search/scripts/query.py | 2026-05-09T05:12:13 |
+| westock_investment                 | missing  |      0 | /home/runner/.codebuddy/bin/westock-data                                                    | 2026-05-09T05:12:13 |
+| real_estate_climate                | ok       |    326 |                                                                                             | 2026-05-09T05:12:13 |
+| new_financial_credit               | ok       |    219 |                                                                                             | 2026-05-09T05:12:09 |
+| 70_city_house_price                | ok       |  51606 | raw rows=12834; unique city rows=12810; fresh                                               | 2026-05-09T05:12:07 |
 
 ## 重要限制
 
