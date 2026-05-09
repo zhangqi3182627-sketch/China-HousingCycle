@@ -16,6 +16,7 @@ from pathlib import Path
 
 import pandas as pd
 
+import backtest_model
 import generate_dashboard
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -54,7 +55,7 @@ def fmt(value, digits: int = 2) -> str:
     return str(value)
 
 
-def write_monthly_report(dashboard_path: Path) -> Path:
+def write_monthly_report(dashboard_path: Path, backtest_path: Path) -> Path:
     latest, sources = latest_tables()
     if latest.empty:
         period = datetime.now().strftime("%Y-%m")
@@ -101,9 +102,11 @@ def write_monthly_report(dashboard_path: Path) -> Path:
 
 def main() -> int:
     run_build()
+    backtest_path = backtest_model.write_backtest()
     dashboard_path = generate_dashboard.write_dashboard(refresh_data=False)
-    report_path = write_monthly_report(dashboard_path)
+    report_path = write_monthly_report(dashboard_path, backtest_path)
     print(dashboard_path)
+    print(backtest_path)
     print(report_path)
     return 0
 

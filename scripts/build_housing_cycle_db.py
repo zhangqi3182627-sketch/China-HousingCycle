@@ -823,49 +823,158 @@ def read_series(conn: sqlite3.Connection, series_id: str, region: str | None = N
 
 
 def build_model(conn: sqlite3.Connection) -> pd.DataFrame:
+    """Build v0.3 scoring model.
+
+    The main signal remains credit expansion only. The composite score implements the
+    approved auxiliary weights: credit 50, sales 18, price 15, inventory/supply 12,
+    developer financing 3, climate/policy 2.
+    """
     hh = read_series(conn, "household_new_loans", "CN")
     if hh.empty:
         return pd.DataFrame()
-    df = hh[["date", "value", "is_estimated"]].rename(columns={"value": "household_new_loans"})
+
+    top10_cities = ["北京", "上海", "深圳", "广州", "杭州", "南京", "天津", "成都", "武汉", "重庆"]
+
+    def one_series(series_id: str, region: str = "CN") -> pd.Series:
+        data = read_series(conn, series_id, region)
+        if data.empty:
+            return pd.Series(dtype="float64")
+        return data.drop_duplicates("date").set_index("date")["value"].sort_index()
+
+    def city_avg(series_id: str, regions: list[str] | None = None) -> pd.Series:
+        data = read_series(conn, series_id)
+        if data.empty:
+            return pd.Series(dtype="float64")
+        if regions is not None:
+            data = data[data["region"].isin(regions)]
+        if data.empty:
+            return pd.Series(dtype="float64")
+        return data.groupby("date")["value"].mean().sort_index()
+
+    def same_month_yoy(series: pd.Series) -> pd.Series:
+        s = series.dropna().sort_index()
+        prev = s.copy()
+        prev.index = prev.index + pd.DateOffset(years=1)
+        prev = prev.reindex(s.index)
+        return (s / prev - 1) * 100
+
+    def improved(series: pd.Series, months: int = 3) -> pd.Series:
+        return (series > 0) | (series > series.shift(months))
+
+    def score_when(condition: pd.Series, points: float) -> pd.Series:
+        return condition.fillna(False).astype(float) * points
+
+    df = hh[["date", "value", "is_estimated"]].rename(columns={"value": "household_new_loans"}).set_index("date").sort_index()
     df["household_ma6"] = df["household_new_loans"].rolling(6, min_periods=6).mean()
     df["household_ma12"] = df["household_new_loans"].rolling(12, min_periods=12).mean()
     df["household_spread"] = df["household_ma6"] - df["household_ma12"]
 
-    # price breadth auxiliary
-    nb = read_series(conn, "new_home_positive_city_share", "CN70").rename(columns={"value": "new_breadth"})
-    sb = read_series(conn, "second_home_positive_city_share", "CN70").rename(columns={"value": "second_breadth"})
-    aux = pd.merge(nb[["date", "new_breadth"]], sb[["date", "second_breadth"]], on="date", how="outer")
-    df = pd.merge(df, aux, on="date", how="left")
-    df["price_breadth_score"] = (df.get("new_breadth", 0).fillna(0) + df.get("second_breadth", 0).fillna(0)) / 2
+    new_breadth = one_series("new_home_positive_city_share", "CN70")
+    second_breadth = one_series("second_home_positive_city_share", "CN70")
+    df["new_breadth"] = new_breadth.reindex(df.index)
+    df["second_breadth"] = second_breadth.reindex(df.index)
+    df["price_breadth_score"] = df[["new_breadth", "second_breadth"]].mean(axis=1)
 
-    climate = read_series(conn, "real_estate_climate_index", "CN").rename(columns={"value": "climate"})
-    if not climate.empty:
-        climate["climate_score"] = climate["climate"].diff(6)
-        df = pd.merge(df, climate[["date", "climate_score"]], on="date", how="left")
+    second_yoy_avg = city_avg("second_home_price_yoy") - 100
+    core10_second_mom = city_avg("second_home_price_mom", top10_cities) - 100
+    df["second_yoy_avg"] = second_yoy_avg.reindex(df.index)
+    df["core10_second_mom"] = core10_second_mom.reindex(df.index)
+
+    creis_path = MANUAL_DIR / "creis_top10_second_hand_listing.csv"
+    if creis_path.exists() and creis_path.stat().st_size > 0:
+        creis = pd.read_csv(creis_path, parse_dates=["date"])
+        creis_avg = creis.groupby("date")[["mom_pct", "yoy_pct"]].mean().sort_index()
+        df["creis_mom"] = creis_avg["mom_pct"].reindex(df.index)
+        df["creis_yoy"] = creis_avg["yoy_pct"].reindex(df.index)
     else:
-        df["climate_score"] = None
+        df["creis_mom"] = pd.NA
+        df["creis_yoy"] = pd.NA
+
+    sales_current = one_series("re_sales_area_current")
+    sales_area_cum = one_series("re_sales_area_cum")
+    sales_revenue_cum = one_series("re_sales_revenue_cum")
+    deposit_cum = one_series("re_cap_deposit_cum")
+    cap_loan_cum = one_series("re_cap_loan_cum")
+    new_start_cum = one_series("re_new_start_area_cum")
+    completion_cum = one_series("re_completion_area_cum")
+    for_sale_area = one_series("re_for_sale_area")
+    climate = one_series("real_estate_climate_index")
+
+    df["sales_area_yoy"] = same_month_yoy(sales_current).reindex(df.index)
+    if not sales_revenue_cum.empty and not sales_area_cum.empty:
+        avg_price = sales_revenue_cum / sales_area_cum
+        df["avg_price_yoy"] = same_month_yoy(avg_price).reindex(df.index)
+    else:
+        df["avg_price_yoy"] = pd.NA
+    df["deposit_yoy"] = same_month_yoy(deposit_cum).reindex(df.index)
+    df["cap_loan_yoy"] = same_month_yoy(cap_loan_cum).reindex(df.index)
+
+    if not for_sale_area.empty and not sales_current.empty:
+        monthly_absorption = sales_current.rolling(12, min_periods=9).sum() / 12
+        df["months_to_sell"] = (for_sale_area / monthly_absorption).reindex(df.index)
+    else:
+        df["months_to_sell"] = pd.NA
+    if not new_start_cum.empty and not sales_area_cum.empty:
+        df["new_start_sales_ratio"] = (new_start_cum / sales_area_cum).reindex(df.index)
+    else:
+        df["new_start_sales_ratio"] = pd.NA
+    if not completion_cum.empty and not sales_area_cum.empty:
+        df["completion_sales_ratio"] = (completion_cum / sales_area_cum).reindex(df.index)
+    else:
+        df["completion_sales_ratio"] = pd.NA
+
+    df["climate"] = climate.reindex(df.index)
+    df["climate_score"] = df["climate"].diff(6)
+
+    valid_credit = df["household_ma6"].notna() & df["household_ma12"].notna()
+    df["credit_score"] = 0.0
+    df.loc[valid_credit, "credit_score"] += score_when(df["household_ma6"] > 3000, 20)
+    df.loc[valid_credit, "credit_score"] += score_when(df["household_ma12"] > 3000, 20)
+    df.loc[valid_credit, "credit_score"] += score_when((df["household_spread"] > 0) & (df["household_ma6"] > df["household_ma6"].shift(3)), 10)
+
+    df["sales_score"] = (
+        score_when(improved(df["sales_area_yoy"]), 10)
+        + score_when(improved(df["avg_price_yoy"]), 5)
+        + score_when(improved(df["deposit_yoy"]), 3)
+    )
+    df["price_score"] = (
+        score_when(df["price_breadth_score"] > 50, 5)
+        + score_when((df["second_breadth"] > 30) | improved(df["second_yoy_avg"]), 4)
+        + score_when(improved(df["core10_second_mom"]), 4)
+        + score_when((df["creis_mom"] >= 0) | (df["creis_yoy"] >= 0), 2)
+    )
+    df["inventory_score"] = (
+        score_when(df["months_to_sell"] < df["months_to_sell"].shift(3), 6)
+        + score_when((df["new_start_sales_ratio"] < 1.0) | (df["new_start_sales_ratio"] < df["new_start_sales_ratio"].shift(3)), 3)
+        + score_when(df["completion_sales_ratio"] < df["completion_sales_ratio"].shift(3), 3)
+    )
+    df["financing_score"] = score_when(improved(df["cap_loan_yoy"]), 3)
+    df["climate_policy_score"] = score_when(df["climate_score"] > 0, 1) + score_when((df["climate"] > 95) | (df["climate"] > df["climate"].shift(3)), 1)
+
+    module_cols = ["credit_score", "sales_score", "price_score", "inventory_score", "financing_score", "climate_policy_score"]
+    df["composite_score"] = df[module_cols].sum(axis=1)
+    df.loc[~valid_credit, "composite_score"] = 0.0
 
     def classify(r) -> tuple[str, str]:
         if pd.isna(r["household_ma6"]) or pd.isna(r["household_ma12"]):
             return "DATA_INSUFFICIENT", "居民新增贷款月度序列不足12个月，不能正式判定"
-        above = r["household_ma6"] > 3000 and r["household_ma12"] > 3000
-        bull = r["household_spread"] > 0
-        if above and bull:
+        if r["credit_score"] >= 50:
             return "GREEN_CANDIDATE", "主信号满足阈值和多头排列；需连续3个月确认"
-        if r["household_ma6"] > 3000 or bull:
-            return "YELLOW_WATCH", "有修复迹象但未满足双均线站上3000亿"
+        if r["credit_score"] >= 10:
+            return "YELLOW_WATCH", "信贷主信号有修复迹象，但未完全确认"
         return "RED_NO_BOTTOM", "居民加杠杆趋势未确认"
 
     labels = df.apply(classify, axis=1, result_type="expand")
     df["main_signal"] = labels[0]
     df["recommendation"] = labels[1]
-    df["composite_score"] = 0.0
-    valid = df["main_signal"] != "DATA_INSUFFICIENT"
-    df.loc[valid, "composite_score"] += (df.loc[valid, "household_ma6"] > 3000).astype(float) * 35
-    df.loc[valid, "composite_score"] += (df.loc[valid, "household_ma12"] > 3000).astype(float) * 35
-    df.loc[valid, "composite_score"] += (df.loc[valid, "household_spread"] > 0).astype(float) * 20
-    df.loc[valid, "composite_score"] += (df.loc[valid, "price_breadth_score"].fillna(0) > 50).astype(float) * 10
-    df["notes"] = df["is_estimated"].map(lambda x: "contains estimated/manual loan data" if x else "")
+    df["notes"] = df.apply(
+        lambda r: (
+            "contains estimated/manual loan data; " if r.get("is_estimated") else ""
+        )
+        + f"v0.3 module scores: credit={r.credit_score:.0f}, sales={r.sales_score:.0f}, price={r.price_score:.0f}, inventory={r.inventory_score:.0f}, financing={r.financing_score:.0f}, climate={r.climate_policy_score:.0f}",
+        axis=1,
+    )
+    df = df.reset_index()
 
     conn.execute("DELETE FROM model_signals")
     conn.executemany(

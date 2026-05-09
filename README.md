@@ -50,7 +50,7 @@ python3 scripts/build_housing_cycle_db.py
 
 ## 可视化 Dashboard / 月度更新
 
-完整月度流水线：抓取最新数据、重建数据库、生成 HTML Dashboard、输出月度 Markdown 报告。
+完整月度流水线：抓取最新数据、重建数据库、生成 HTML Dashboard、输出历史回测报告和月度 Markdown 报告。
 
 ```bash
 cd /Users/qizhang/CodeBuddy/Claw/HousingCycle
@@ -63,6 +63,8 @@ bash scripts/update_dashboard.sh
 
 ```text
 reports/dashboard.html
+reports/backtest.html
+reports/backtest_summary.csv
 reports/monthly/housing_cycle_YYYY-MM.md
 ```
 

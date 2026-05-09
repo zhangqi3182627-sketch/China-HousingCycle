@@ -21,6 +21,8 @@ DB_PATH = ROOT / "data" / "housing_cycle.sqlite"
 MANUAL_DIR = ROOT / "data" / "manual"
 REPORT_DIR = ROOT / "reports"
 DASHBOARD_PATH = REPORT_DIR / "dashboard.html"
+BACKTEST_HTML = REPORT_DIR / "backtest.html"
+BACKTEST_SUMMARY = REPORT_DIR / "backtest_summary.csv"
 BUILD_SCRIPT = ROOT / "scripts" / "build_housing_cycle_db.py"
 START_DATE = "2018-01-01"
 TOP10_CITIES = ["北京", "上海", "深圳", "广州", "杭州", "南京", "天津", "成都", "武汉", "重庆"]
@@ -161,6 +163,7 @@ def load_dashboard_data() -> dict[str, Any]:
     loan_quarterly = read_csv_safe(MANUAL_DIR / "pbc_real_estate_loan_quarterly.csv", parse_dates=["date"])
     creis_top10 = read_csv_safe(MANUAL_DIR / "creis_top10_second_hand_listing.csv", parse_dates=["date"])
     weights = read_csv_safe(MANUAL_DIR / "model_weight_scheme.csv")
+    backtest_summary = read_csv_safe(BACKTEST_SUMMARY)
     nbs_top10 = latest_top10_nbs(obs)
 
     return {
@@ -172,6 +175,7 @@ def load_dashboard_data() -> dict[str, Any]:
         "creis_top10": creis_top10,
         "nbs_top10": nbs_top10,
         "weights": weights,
+        "backtest_summary": backtest_summary,
     }
 
 
@@ -218,7 +222,16 @@ def prepare_display_tables(data: dict[str, Any]) -> dict[str, str]:
 
     weights = data["weights"].copy()
     weight_table = render_table(weights, ["module", "weight", "indicators", "score_rule", "notes"], ["模块", "权重", "指标", "评分规则", "说明"])
-    return {"loan_table": loan_table, "creis_table": creis_table, "nbs_table": nbs_table, "weight_table": weight_table}
+
+    backtest = data["backtest_summary"].copy()
+    if not backtest.empty:
+        combined = backtest[(backtest["target"] == "未来价格+销售同时修复") & (backtest["group_type"] == "main_signal")].copy()
+        for col in ["future_hit_rate_pct"]:
+            combined[col] = combined[col].map(lambda x: fmt_num(x, 1))
+        backtest_table = render_table(combined, ["horizon", "group", "n", "future_hit_rate_pct"], ["窗口", "信号", "样本数", "未来修复比例%"])
+    else:
+        backtest_table = "<p class='muted'>暂无回测结果。运行 <code>python3 scripts/backtest_model.py</code> 后生成。</p>"
+    return {"loan_table": loan_table, "creis_table": creis_table, "nbs_table": nbs_table, "weight_table": weight_table, "backtest_table": backtest_table}
 
 
 def render_html(data: dict[str, Any], chart_rows: list[dict[str, str]]) -> str:
@@ -324,9 +337,15 @@ python3 scripts/run_monthly_update.py</pre>
   </section>
 
   <section class="section">
-    <h2>模型权重方案 v0.1</h2>
-    <p class="muted">主信号按你的要求固定 50%；其余指标只做辅助确认，不替代主信号。正式分档建议后续在你确认权重后写入模型表。</p>
+    <h2>模型权重方案 v0.3</h2>
+    <p class="muted">主信号按你的要求固定 50%；其余指标只做辅助确认，不替代主信号。当前综合分已按该权重写入模型引擎。</p>
     <div class="table-wrap">{tables['weight_table']}</div>
+  </section>
+
+  <section class="section">
+    <h2>历史回测与模型有效性</h2>
+    <p class="muted">方向性回测：GREEN 预测未来修复，RED 预测未来不修复，YELLOW 作为观察区。完整报告见 <a href="backtest.html">backtest.html</a>。</p>
+    <div class="table-wrap">{tables['backtest_table']}</div>
   </section>
 
   <section class="section">

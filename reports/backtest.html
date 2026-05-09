@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>房地产周期模型历史回测</title>
+  <style>
+    :root { --bg:#f5f7fb; --panel:#fff; --line:#e6eaf2; --ink:#182033; --muted:#667085; --blue:#155eef; }
+    body { margin:0; font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",Arial,sans-serif; color:var(--ink); background:var(--bg); }
+    header { padding:34px 42px 26px; color:#fff; background:linear-gradient(135deg,#102a43,#155eef); }
+    header h1 { margin:0 0 10px; } header p { color:#dbe7ff; margin:4px 0; }
+    main { max-width:1280px; margin:0 auto; padding:26px 28px 60px; }
+    .section { background:var(--panel); border:1px solid var(--line); border-radius:18px; padding:20px; margin:20px 0; box-shadow:0 8px 24px rgba(16,42,67,.05); }
+    .cards { display:grid; grid-template-columns:repeat(4,minmax(160px,1fr)); gap:14px; }
+    .card { background:var(--panel); border:1px solid var(--line); border-radius:16px; padding:16px; }
+    .card-title { color:var(--muted); font-size:13px; } .card-value { font-size:24px; font-weight:800; margin-top:8px; }
+    table { width:100%; border-collapse:collapse; font-size:13px; } th,td { border-bottom:1px solid var(--line); padding:9px 8px; text-align:left; vertical-align:top; } th { background:#f8fafc; }
+    .table-wrap { overflow:auto; max-height:620px; border:1px solid var(--line); border-radius:12px; } .muted { color:var(--muted); line-height:1.6; }
+    a { color:var(--blue); }
+  </style>
+</head>
+<body>
+<header>
+  <h1>房地产周期模型历史回测</h1>
+  <p>回测区间：2007-02 至 2026-03 ｜ 生成时间：2026-05-09 13:43:29</p>
+  <p>说明：当前为方向性回测，检验信贷主信号和 v0.3 综合分对未来价格扩散、销售修复的预测能力。</p>
+</header>
+<main>
+  <div class="cards">
+    <div class="card"><div class="card-title">最新月份</div><div class="card-value">2026-03</div></div>
+    <div class="card"><div class="card-title">最新主信号</div><div class="card-value">RED_NO_BOTTOM</div></div>
+    <div class="card"><div class="card-title">最新综合分</div><div class="card-value">20</div></div>
+    <div class="card"><div class="card-title">历史样本数</div><div class="card-value">230</div></div>
+  </div>
+
+  <section class="section">
+    <h2>方向性准确率</h2>
+    <p class="muted">只评价明确的 GREEN/RED：GREEN 预测未来修复，RED 预测未来不修复；YELLOW 作为观察区，不纳入命中率。</p>
+    <div class="table-wrap"><table><thead><tr><th>horizon</th><th>target</th><th>judged_signals</th><th>n</th><th>directional_accuracy_pct</th></tr></thead><tbody><tr><td>6M</td><td>未来价格扩散修复</td><td>GREEN predicts True; RED predicts False; YELLOW excluded</td><td>103</td><td>81.6</td></tr><tr><td>6M</td><td>未来销售同比转正</td><td>GREEN predicts True; RED predicts False; YELLOW excluded</td><td>103</td><td>58.3</td></tr><tr><td>6M</td><td>未来价格+销售同时修复</td><td>GREEN predicts True; RED predicts False; YELLOW excluded</td><td>103</td><td>69.9</td></tr><tr><td>12M</td><td>未来价格扩散修复</td><td>GREEN predicts True; RED predicts False; YELLOW excluded</td><td>97</td><td>74.2</td></tr><tr><td>12M</td><td>未来销售同比转正</td><td>GREEN predicts True; RED predicts False; YELLOW excluded</td><td>97</td><td>47.4</td></tr><tr><td>12M</td><td>未来价格+销售同时修复</td><td>GREEN predicts True; RED predicts False; YELLOW excluded</td><td>97</td><td>68.0</td></tr></tbody></table></div>
+  </section>
+
+  <section class="section">
+    <h2>不同主信号后的未来表现</h2>
+    <p class="muted">表中命中率表示该信号出现后，未来 6/12 个月目标成立的比例。</p>
+    <div class="table-wrap"><table><thead><tr><th>horizon</th><th>target</th><th>group_type</th><th>group</th><th>n</th><th>future_hit_rate_pct</th></tr></thead><tbody><tr><td>6M</td><td>未来价格扩散修复</td><td>main_signal</td><td>GREEN_CANDIDATE</td><td>46</td><td>84.8</td></tr><tr><td>6M</td><td>未来价格扩散修复</td><td>main_signal</td><td>RED_NO_BOTTOM</td><td>57</td><td>21.1</td></tr><tr><td>6M</td><td>未来价格扩散修复</td><td>main_signal</td><td>YELLOW_WATCH</td><td>110</td><td>51.8</td></tr><tr><td>6M</td><td>未来销售同比转正</td><td>main_signal</td><td>GREEN_CANDIDATE</td><td>46</td><td>58.7</td></tr><tr><td>6M</td><td>未来销售同比转正</td><td>main_signal</td><td>RED_NO_BOTTOM</td><td>57</td><td>42.1</td></tr><tr><td>6M</td><td>未来销售同比转正</td><td>main_signal</td><td>YELLOW_WATCH</td><td>110</td><td>60.9</td></tr><tr><td>6M</td><td>未来价格+销售同时修复</td><td>main_signal</td><td>GREEN_CANDIDATE</td><td>46</td><td>58.7</td></tr><tr><td>6M</td><td>未来价格+销售同时修复</td><td>main_signal</td><td>RED_NO_BOTTOM</td><td>57</td><td>21.1</td></tr><tr><td>6M</td><td>未来价格+销售同时修复</td><td>main_signal</td><td>YELLOW_WATCH</td><td>110</td><td>43.6</td></tr><tr><td>12M</td><td>未来价格扩散修复</td><td>main_signal</td><td>GREEN_CANDIDATE</td><td>46</td><td>73.9</td></tr><tr><td>12M</td><td>未来价格扩散修复</td><td>main_signal</td><td>RED_NO_BOTTOM</td><td>51</td><td>25.5</td></tr><tr><td>12M</td><td>未来价格扩散修复</td><td>main_signal</td><td>YELLOW_WATCH</td><td>110</td><td>53.6</td></tr><tr><td>12M</td><td>未来销售同比转正</td><td>main_signal</td><td>GREEN_CANDIDATE</td><td>46</td><td>60.9</td></tr><tr><td>12M</td><td>未来销售同比转正</td><td>main_signal</td><td>RED_NO_BOTTOM</td><td>51</td><td>64.7</td></tr><tr><td>12M</td><td>未来销售同比转正</td><td>main_signal</td><td>YELLOW_WATCH</td><td>110</td><td>60.0</td></tr><tr><td>12M</td><td>未来价格+销售同时修复</td><td>main_signal</td><td>GREEN_CANDIDATE</td><td>46</td><td>60.9</td></tr><tr><td>12M</td><td>未来价格+销售同时修复</td><td>main_signal</td><td>RED_NO_BOTTOM</td><td>51</td><td>25.5</td></tr><tr><td>12M</td><td>未来价格+销售同时修复</td><td>main_signal</td><td>YELLOW_WATCH</td><td>110</td><td>48.2</td></tr></tbody></table></div>
+  </section>
+
+  <section class="section">
+    <h2>v0.3 综合分分层表现</h2>
+    <p class="muted">用于检验综合分越高，未来修复概率是否越高。</p>
+    <div class="table-wrap"><table><thead><tr><th>horizon</th><th>target</th><th>score_bucket</th><th>n</th><th>future_hit_rate_pct</th><th>avg_score</th></tr></thead><tbody><tr><td>6M</td><td>未来价格扩散修复</td><td>&lt;40</td><td>80</td><td>21.2</td><td>22.4</td></tr><tr><td>6M</td><td>未来价格扩散修复</td><td>40-59</td><td>39</td><td>30.8</td><td>50.2</td></tr><tr><td>6M</td><td>未来价格扩散修复</td><td>60-74</td><td>31</td><td>67.7</td><td>66.1</td></tr><tr><td>6M</td><td>未来价格扩散修复</td><td>75+</td><td>63</td><td>92.1</td><td>87.0</td></tr><tr><td>6M</td><td>未来销售同比转正</td><td>&lt;40</td><td>80</td><td>50.0</td><td>22.4</td></tr><tr><td>6M</td><td>未来销售同比转正</td><td>40-59</td><td>39</td><td>46.2</td><td>50.2</td></tr><tr><td>6M</td><td>未来销售同比转正</td><td>60-74</td><td>31</td><td>54.8</td><td>66.1</td></tr><tr><td>6M</td><td>未来销售同比转正</td><td>75+</td><td>63</td><td>68.3</td><td>87.0</td></tr><tr><td>6M</td><td>未来价格+销售同时修复</td><td>&lt;40</td><td>80</td><td>20.0</td><td>22.4</td></tr><tr><td>6M</td><td>未来价格+销售同时修复</td><td>40-59</td><td>39</td><td>28.2</td><td>50.2</td></tr><tr><td>6M</td><td>未来价格+销售同时修复</td><td>60-74</td><td>31</td><td>54.8</td><td>66.1</td></tr><tr><td>6M</td><td>未来价格+销售同时修复</td><td>75+</td><td>63</td><td>68.3</td><td>87.0</td></tr><tr><td>12M</td><td>未来价格扩散修复</td><td>&lt;40</td><td>74</td><td>27.0</td><td>23.1</td></tr><tr><td>12M</td><td>未来价格扩散修复</td><td>40-59</td><td>39</td><td>35.9</td><td>50.2</td></tr><tr><td>12M</td><td>未来价格扩散修复</td><td>60-74</td><td>31</td><td>58.1</td><td>66.1</td></tr><tr><td>12M</td><td>未来价格扩散修复</td><td>75+</td><td>63</td><td>85.7</td><td>87.0</td></tr><tr><td>12M</td><td>未来销售同比转正</td><td>&lt;40</td><td>74</td><td>67.6</td><td>23.1</td></tr><tr><td>12M</td><td>未来销售同比转正</td><td>40-59</td><td>39</td><td>43.6</td><td>50.2</td></tr><tr><td>12M</td><td>未来销售同比转正</td><td>60-74</td><td>31</td><td>51.6</td><td>66.1</td></tr><tr><td>12M</td><td>未来销售同比转正</td><td>75+</td><td>63</td><td>69.8</td><td>87.0</td></tr><tr><td>12M</td><td>未来价格+销售同时修复</td><td>&lt;40</td><td>74</td><td>27.0</td><td>23.1</td></tr><tr><td>12M</td><td>未来价格+销售同时修复</td><td>40-59</td><td>39</td><td>35.9</td><td>50.2</td></tr><tr><td>12M</td><td>未来价格+销售同时修复</td><td>60-74</td><td>31</td><td>51.6</td><td>66.1</td></tr><tr><td>12M</td><td>未来价格+销售同时修复</td><td>75+</td><td>63</td><td>69.8</td><td>87.0</td></tr></tbody></table></div>
+  </section>
+
+  <section class="section">
+    <h2>回测口径</h2>
+    <ul class="muted">
+      <li>价格修复：未来窗口内 70 城新房或二手房环比上涨城市占比均值 ≥ 50%。</li>
+      <li>销售修复：未来窗口内商品房销售面积当月同比均值 ≥ 0。</li>
+      <li>综合修复：价格修复和销售修复同时成立。</li>
+      <li>该回测是方向性验证，不等同于交易收益回测，也未处理数据发布滞后；正式版可继续加入发布时间滞后和样本外验证。</li>
+    </ul>
+  </section>
+</main>
+</body>
+</html>
