@@ -16,3 +16,4 @@ data/raw/
 # Local logs / temp
 *.log
 .tmp/
+.update-stamps/
