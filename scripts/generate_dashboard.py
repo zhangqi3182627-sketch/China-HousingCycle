@@ -247,7 +247,7 @@ def render_html(data: dict[str, Any], chart_rows: list[dict[str, str]]) -> str:
         ("居民新增贷款", f"{fmt_num(latest.get('household_new_loans') if not latest.empty else None)} 亿", "单月值"),
         ("6M 均值", f"{fmt_num(latest.get('household_ma6') if not latest.empty else None)} 亿", "核心阈值 3000 亿"),
         ("12M 均值", f"{fmt_num(latest.get('household_ma12') if not latest.empty else None)} 亿", "核心阈值 3000 亿"),
-        ("综合分", fmt_num(latest.get("composite_score") if not latest.empty else None, 0), "当前旧版模型分数"),
+        ("综合分", fmt_num(latest.get("composite_score") if not latest.empty else None, 0), "v0.3 权重模型分数"),
     ]
     card_html = "".join(
         f"<div class='card {signal_class if title == '主信号' else ''}'><div class='card-title'>{html_escape(title)}</div><div class='card-value'>{html_escape(value)}</div><div class='card-note'>{html_escape(note)}</div></div>"
